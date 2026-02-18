@@ -1,18 +1,49 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
   <meta charset="UTF-8">
   <title>Crusader OS Wiki</title>
-  <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/docsify@4/lib/themes/vue.css">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/docsify@4/lib/themes/pure.css">
+
+  <style>
+    /* Old School Wiki Styles */
+    :root {
+      --theme-color: #0645ad; /* Classic Wikipedia Blue Link */
+    }
+    body {
+      background-color: #f6f6f6; /* Classic Grey Background */
+      font-family: sans-serif;
+    }
+    .sidebar {
+      background-color: #f6f6f6;
+      border-right: 1px solid #a7d7f9;
+    }
+    .content {
+      background-color: #ffffff;
+      border: 1px solid #a7d7f9;
+      margin-top: 20px;
+      padding: 20px;
+    }
+    h1, h2 {
+      border-bottom: 1px solid #aaaaaa; /* The classic line under titles */
+      font-family: 'Linux Libertine', 'Georgia', serif;
+    }
+    .sidebar-nav ul li a {
+      font-size: 14px;
+      color: #0645ad;
+    }
+  </style>
 </head>
 <body>
-  <div id="app">Loading...</div>
+  <div id="app">Loading Wiki...</div>
   <script>
     window.$docsify = {
-      name: 'Crusader OS',
-      repo: 'https://github.com/daja201/daja201.github.io',
-      loadSidebar: true, 
-      auto2top: true   
+      name: '<span>Crusader OS Wiki</span>',
+      loadSidebar: true,
+      subMaxLevel: 2,
+      homepage: 'README.md'
     }
   </script>
   <script src="//cdn.jsdelivr.net/npm/docsify@4"></script>
