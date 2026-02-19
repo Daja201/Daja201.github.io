@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html lang="cs">
+<head>
+    <meta charset="UTF-8">
+    <title>Moje Tower Defense</title>
+    <style>
+        body { font-family: sans-serif; text-align: center; background: #222; color: white; }
+        canvas { background: #444; border: 2px solid #666; cursor: crosshair; }
+        .ui { margin: 10px; }
+        button { padding: 8px 15px; font-size: 16px; cursor: pointer; }
+    </style>
+</head>
+<body>
+
+    <h1>Tower Defense game</h1>
+    <div class="ui">
+        <span>Money: <span id="goldDisplay">100</span></span> | 
+        <span>Health: <span id="livesDisplay">10</span></span>
+    </div>
+    
+    <canvas id="gameCanvas" width="1600" height="900"></canvas>
+
+    <div class="ui">
+        <button onclick="ulozitHru()">Save</button>
+        <input type="file" id="loadInput" style="display: none;" onchange="nacistSoubor(this)">
+        <button onclick="document.getElementById('loadInput').click()">Load</button>
+        <button onclick="restartHry()">Restart</button>
+    </div>
+
+<script>
+    const canvas = document.getElementById("gameCanvas");
+    const ctx = canvas.getContext("2d");
+    let hra = {
+        zlato: 100,
+        zivoty: 10,
+        veze: [],
+        nepratele: [], 
+        cas: 0        
+    };
+    const cesta = [[0, 100], [200, 100], [200, 400], [600, 400], [600, 100], [800, 100]];
+    const cenaVeze = 50;
+    function startHry() {
+        requestAnimationFrame(herniSmycka);
+    }
+
+    function herniSmycka() {
+        update();
+        kresli();
+        requestAnimationFrame(herniSmycka);
+    }
+
+    function update() {
+        if (hra.zivoty <= 0) return;
+        hra.cas++;
+        if (hra.cas % 100 === 0) {
+            hra.nepratele.push({ x: 0, y: 100, bodCesty: 1, hp: 3 });
+        }
+        hra.nepratele.forEach((potvora, index) => {
+            let cil = cesta[potvora.bodCesty];
+            if (!cil) { 
+                hra.zivoty--;
+                hra.nepratele.splice(index, 1);
+                aktualizujUI();
+                return;
+    }
+            let dx = cil[0] - potvora.x;
+            let dy = cil[1] - potvora.y;
+            let vzdalenost = Math.hypot(dx, dy);
+            
+            if (vzdalenost < 2) {
+                potvora.bodCesty++;
+            } else {
+                potvora.x += (dx / vzdalenost) * 2;
+                potvora.y += (dy / vzdalenost) * 2;
+            }
+        });
+
+        hra.veze.forEach(vez => {
+            if (hra.cas % 60 === 0) {
+                let cil = hra.nepratele.find(p => Math.hypot(p.x - vez.x, p.y - vez.y) < 150);
+                if (cil) {
+                    cil.hp--;
+                    vez.striliNa = { x: cil.x, y: cil.y };
+                    setTimeout(() => vez.striliNa = null, 100); 
+                    
+                    if (cil.hp <= 0) {
+                        hra.zlato += 10;
+                        hra.nepratele = hra.nepratele.filter(p => p !== cil);
+                        aktualizujUI();
+                    }
+                }
+            }
+        });
+    }
+
+    function kresli() {
+        ctx.fillStyle = "#444";
+        ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+        if (hra.zivoty <= 0) {
+            ctx.fillStyle = "red";
+            ctx.font = "50px Arial";
+            ctx.fillText("GAME OVER", 250, 300);
+            return;
+        }
+        ctx.strokeStyle = "#888";
+        ctx.lineWidth = 40;
+        ctx.beginPath();
+        ctx.moveTo(cesta[0][0], cesta[0][1]);
+        for (let i = 1; i < cesta.length; i++) ctx.lineTo(cesta[i][0], cesta[i][1]);
+        ctx.stroke();
+        ctx.fillStyle = "#4af";
+        hra.veze.forEach(v => {
+            ctx.fillRect(v.x - 15, v.y - 15, 30, 30);
+            if (v.striliNa) {
+                ctx.strokeStyle = "yellow";
+                ctx.lineWidth = 2;
+                ctx.beginPath();
+                ctx.moveTo(v.x, v.y);
+                ctx.lineTo(v.striliNa.x, v.striliNa.y);
+                ctx.stroke();
+            }
+        });
+        ctx.fillStyle = "#f44";
+        hra.nepratele.forEach(p => {
+            ctx.beginPath();
+            ctx.arc(p.x, p.y, 10, 0, Math.PI * 2);
+            ctx.fill();
+        });
+    }
+    canvas.addEventListener("click", (e) => {
+        if (hra.zlato >= cenaVeze) {
+            const rect = canvas.getBoundingClientRect();
+            const x = e.clientX - rect.left;
+            const y = e.clientY - rect.top;
+            
+            hra.veze.push({ x: x, y: y });
+            hra.zlato -= cenaVeze;
+            aktualizujUI();
+        }
+    });
+
+    function aktualizujUI() {
+        document.getElementById("goldDisplay").innerText = hra.zlato;
+        document.getElementById("livesDisplay").innerText = hra.zivoty;
+    }
+
+    function restartHry() {
+        location.reload();
+    }
+    
+    function ulozitHru() {
+        const dataText = JSON.stringify(hra);
+        const blob = new Blob([dataText], {type: "application/json"});
+        const url = URL.createObjectURL(blob);
+        const a = document.createElement("a");
+        a.href = url;
+        a.download = "moje-td-save.json";
+        a.click();
+        
+        URL.revokeObjectURL(url);
+    }
+
+    function nacistSoubor(input) {
+        const file = input.files[0];
+        if (!file) return;
+
+        const reader = new FileReader();
+        reader.onload = function(e) {
+            try {
+                const nactenaData = JSON.parse(e.target.result);
+                hra = nactenaData;
+                aktualizujUI();
+                alert("Hra načtena!");
+            } catch (chyba) {
+                alert("Chyba při načítání souboru!");
+            }
+        };
+        reader.readAsText(file);
+    }
+    startHry();
+</script>
+</body>
+</html>

@@ -15,3 +15,15 @@ p {
     text-align: left;
 
 }
+
+.vertikalni-line {
+  border-left: 2px solid #ffffff;
+  height: 300px;              
+  margin: 0 20px;            
+}
+
+.flex-container {
+  display: flex;        
+  align-items: center;  
+  gap: 15px;            
+}
