@@ -22,6 +22,12 @@ p {
   margin: 0 20px;            
 }
 
+.vertikalni-line-small {
+  border-left: 2px solid #ffffff;
+  height: 50px;              
+  margin: 0 20px;            
+}
+
 .flex-container {
   display: flex;        
   align-items: center;  
