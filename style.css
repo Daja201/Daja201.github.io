@@ -33,3 +33,9 @@ p {
   align-items: center;  
   gap: 15px;            
 }
+
+.spot-container {
+  display: flex;        
+  align-items: center;  
+  gap: 10px;            
+}
