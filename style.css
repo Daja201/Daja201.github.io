@@ -36,8 +36,20 @@ p {
 
 .spot-container {
   display: flex;        
-  align-items: center;  
+  align-items: left;  
   gap: 10px;            
+}
+
+.small-line {
+  display: flex;        
+  align-items: center;  
+  gap: 5px;            
+}
+
+.mid-bands {
+  display: flex;        
+  align-items: center;  
+  gap: 5px;            
 }
 
 .end-container {
@@ -48,4 +60,12 @@ p {
   }
   align-items: center;
   color: grey
+}
+
+ul {
+  list-style-type: circle;
+}
+
+li::marker {
+  color: white;
 }
