@@ -39,3 +39,13 @@ p {
   align-items: center;  
   gap: 10px;            
 }
+
+.end-container {
+  p {
+    color: grey;
+    text-align: center;
+
+  }
+  align-items: center;
+  color: grey
+}
