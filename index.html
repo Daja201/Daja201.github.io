@@ -80,7 +80,7 @@
 <hr>
 
 <div class="commit-container">
-  <h4>LAST CRUSADER-OS-v02 COMMIT: </h4>
+  <h4>LAST COMMITS: </h4>
 <p id="commit-info">Načítám poslední update...</p>
 </div>
 
@@ -97,7 +97,7 @@ async function getLatestCommit() {
         const date = new Date(data.commit.author.date).toLocaleDateString();
         const message = data.commit.message;
 
-        document.getElementById('commit-info').innerText = `Last commit :: ${date} (${message})`;
+        document.getElementById('commit-info').innerText = `Last Crusader-OS-v02 commit :: ${date} (${message})`;
     } catch (error) {
         console.error('Error when loading ::', error);
     }
