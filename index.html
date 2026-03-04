@@ -79,7 +79,33 @@
 </div>
 <hr>
 
+<div class="commit-container">
+  <h4>LAST COMMIT: </h4>
+<p id="commit-info">Načítám poslední update...</p>
+</div>
 
+<script>
+async function getLatestCommit() {
+    const user = 'daja201';
+    const repo = 'Crusader-OS-v02';
+    const url = `https://api.github.com/repos/${user}/${repo}/commits/main`;
+
+    try {
+        const response = await fetch(url);
+        const data = await response.json();
+        
+        const date = new Date(data.commit.author.date).toLocaleDateString();
+        const message = data.commit.message;
+
+        document.getElementById('commit-info').innerText = `Poslední úprava: ${date} (${message})`;
+    } catch (error) {
+        console.error('Chyba při načítání:', error);
+    }
+}
+
+getLatestCommit();
+</script>
+<hr>
 <!--END-->
 <div class="end-container">
     <footer>
