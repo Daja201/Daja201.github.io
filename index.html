@@ -97,9 +97,9 @@ async function getLatestCommit() {
         const date = new Date(data.commit.author.date).toLocaleDateString();
         const message = data.commit.message;
 
-        document.getElementById('commit-info').innerText = `Poslední úprava: ${date} (${message})`;
+        document.getElementById('commit-info').innerText = `Last commit :: ${date} (${message})`;
     } catch (error) {
-        console.error('Chyba při načítání:', error);
+        console.error('Error when loading ::', error);
     }
 }
 
