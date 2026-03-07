@@ -76,3 +76,8 @@ ul {
 li::marker {
   color: white;
 }
+
+.img_start {
+  display: flex;
+  gap: 20px; 
+}
