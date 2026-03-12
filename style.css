@@ -1,23 +1,22 @@
-body {
-  background: black;
-  margin: 0;
-  height: 100vh;
-  overflow: hidden;
+html {
+  scroll-behavior: smooth;
 }
+
 body {
   background: black;
   margin: 0;
-  height: 100vh;
-  overflow: hidden;
+  min-height: 100vh;
+  overflow: auto;
   position: relative; 
 }
 
 #star-field {
-  position: absolute;
+  position: fixed;
   top: 0;
   left: 0;
-  width: 100%;
+  max-width: 100%;
   height: 100%;
+  z-index: -1;
 }
 
 .star {
@@ -105,4 +104,18 @@ ul {
 
 li::marker {
   color: white;
+}
+
+#dailyVersesWrapper {
+    color: white !important;
+    text-align: center;
+}
+  
+#dailyVersesWrapper a {
+    color: white !important;
+    text-decoration: underl
+}
+
+.text {
+  text-align: center;
 }
