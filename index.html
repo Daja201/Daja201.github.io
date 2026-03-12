@@ -7,6 +7,37 @@
     <link rel="stylesheet" href="style.css">
     <link rel="stylesheet" href="https://unpkg.com/github-calendar@latest/dist/github-calendar-responsive.css"/>    
 </head>
+
+<script>
+  document.addEventListener('DOMContentLoaded', () => {
+  const starField = document.getElementById('star-field');
+  const numberOfStars = 600; 
+  const maxStarSize = 3;
+  const minStarSize = 1;
+  for (let i = 0; i < numberOfStars; i++) {
+    const star = document.createElement('div');
+    star.classList.add('star');
+    const size = Math.random() * (maxStarSize - minStarSize) + minStarSize;
+    star.style.width = `${size}px`;
+    star.style.height = `${size}px`;
+    star.style.top = `${Math.random() * 100}vh`;
+    star.style.left = `${Math.random() * 100}vw`;
+    const animationDuration = Math.random() * 20 + 10;
+    star.style.animationDuration = `${animationDuration}s`;
+    star.style.animationIterationCount = 'infinite';
+    star.style.animationTimingFunction = 'linear';
+    star.style.animationName = 'moveStar';
+    const moveDistance = 2000; 
+    const directionX = (Math.random() - 0.5) * 2; 
+    const directionY = (Math.random() - 0.5) * 2;
+    star.style.setProperty('--move-x', `${moveDistance * directionX}px`);
+    star.style.setProperty('--move-y', `${moveDistance * directionY}px`);
+    star.style.animationDelay = `-${Math.random() * animationDuration}s`;
+    starField.appendChild(star);
+  }
+});
+</script>
+
 <body>
 <!--UPPER SITE-->
 <nav>
@@ -112,7 +143,9 @@ getLatestCommit();
       <p>&copy;2026 David Zapletal</p>
     </footer>
 </div>
+<div id="star-field"></div>
 
+</style>
 </script>
 </body>
 </html>
