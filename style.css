@@ -45,6 +45,11 @@ p {
 
 }
 
+ul, table {
+  color: white;
+
+}
+
 .vertikalni-line {
   border-left: 2px solid #ffffff;
   height: 300px;              
