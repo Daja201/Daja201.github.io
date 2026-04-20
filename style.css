@@ -8,6 +8,7 @@ body {
   min-height: 100vh;
   overflow: auto;
   position: relative; 
+  color: #FFFFFF;
 }
 
 #star-field {
@@ -43,6 +44,10 @@ p {
     color: white;
     text-align: left;
 
+}
+
+a {
+  color: #AAFFAA
 }
 
 ul, table {
